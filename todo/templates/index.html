@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Doリストアプリ</title>
+    <!-- レスポンシブ対応 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <!-- main.cssを読み込む -->
+    <link rel="stylesheet" href="{% static 'todo/main.css' %}">
+    <!-- アイコンフォント -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- 固定ヘッダー -->
+    <header>
+        <div class="header-container">
+            <h1>To-Doリスト</h1>
+        </div>
+    </header><br>
+
+    <!-- ナビゲーションバー: タスク, アカウント -->
+    <nav>
+        <ul class="navbar">
+            <!-- 上に隙間を設けるため、CSSで調整（.navbar li か .nav-btnに margin-top付与） -->
+            <li>
+                <a href="{% url 'tasks' %}" class="nav-btn">タスク</a>
+            </li>
+            <li>
+                <button class="nav-btn account-btn" onclick="openAccountPanel()">アカウント</button>
+            </li>
+        </ul>
+    </nav>
+    
+
+    <!-- タスクコントロール -->
+    <div class="task-controls">
+        
+        <span id="order-status">現在: 先頭追加</span>
+        <button onclick="toggleOrder()" class="reverse-order-btn" title="追加順序を切り替え">
+            <span class="material-icons">swap_vert</span>
+        </button>
+        <button onclick="openTrashModal()" class="trash-btn" title="ゴミ箱">
+            <span class="material-icons">delete</span>
+        </button>
+    </div>
+
+    <!-- メインコンテンツ (タスク一覧) -->
+    <main>
+        <section id="tasks">
+            <h2>タスク一覧</h2>
+            <ul id="task-list">
+                {% for task in tasks %}
+                <li id="task{{ task.id }}">
+                    <label>{{ task.title }}</label>
+                    <div class="task-actions">
+                        <!-- 編集ボタン -->
+                        <button class="edit-btn"
+                                onclick="openEditModal('{{ task.id }}','{{ task.title|escapejs }}')"
+                                title="編集">
+                            <span class="material-icons">edit</span>
+                        </button>
+                        <!-- ゴミ箱へ移動（削除）ボタン -->
+                        <button class="delete-btn"
+                                onclick="window.location.href='{% url 'move_to_trash' task.id %}'"
+                                title="削除">
+                            <span class="material-icons">delete</span>
+                        </button>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+
+    <!-- フッター（タスク追加フォーム） -->
+    <footer>
+        <form id="task-form" onsubmit="return addTask(event);">
+            <textarea id="new-task" placeholder="新しいタスクを入力"
+                      required
+                      oninput="autoResizeTextarea(this)"></textarea>
+            <button type="submit">追加</button>
+        </form>
+    </footer>
+
+    <!-- ゴミ箱モーダル -->
+    <div id="trash-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeTrashModal()">&times;</span>
+            <h2>ゴミ箱</h2>
+            <ul id="trash-list">
+                {% for trash_task in trash_tasks %}
+                <li id="task{{ trash_task.id }}">
+                    <label>{{ trash_task.title }}</label>
+                    <div class="task-actions">
+                        <button class="restore-btn"
+                                onclick="window.location.href='{% url 'restore_task' trash_task.id %}'"
+                                title="復元">
+                            <span class="material-icons">restore</span>
+                        </button>
+                        <button class="permanent-delete-btn"
+                                onclick="window.location.href='{% url 'permanent_delete' trash_task.id %}'"
+                                title="完全に削除">
+                            <span class="material-icons">delete_forever</span>
+                        </button>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- 編集モーダル -->
+    <div id="edit-modal" class="modal">
+        <!-- モーダルを画面中央に配置するため、.modal に align-items:center; などをCSSで設定 -->
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditModal()">&times;</span>
+            <h2>タスクを編集</h2>
+            <input type="hidden" id="edit-task-id">
+            <textarea id="edit-task-input" required oninput="autoResizeTextarea(this)"></textarea>
+            <div class="modal-buttons">
+                <button onclick="saveTask()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- アカウントパネル -->
+    <div id="account-panel" class="modal" style="display: none;">
+        <div class="modal-content account-panel-content">
+            <span class="close-btn" onclick="closeAccountPanel()">&times;</span>
+            <h2>アカウント情報</h2>
+            <p>ユーザー名: {{ user_name }}</p>
+            <!-- ログアウトボタン -->
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">ログアウト</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- main.jsなどJS読み込み -->
+    <script src="{% static 'todo/main.js' %}"></script>
+    <script>
+        let reversedOrder = true;
+        document.getElementById('order-status').textContent = '現在: 先頭追加';
+
+        function toggleOrder() {
+            reversedOrder = !reversedOrder;
+            const statusSpan = document.getElementById('order-status');
+            statusSpan.textContent = reversedOrder ? '現在: 先頭追加' : '現在: 末尾追加';
+        }
+
+        function openAccountPanel() {
+            document.getElementById('account-panel').style.display = 'flex';
+        }
+        function closeAccountPanel() {
+            document.getElementById('account-panel').style.display = 'none';
+        }
+
+        function openTrashModal() {
+            document.getElementById('trash-modal').style.display = 'flex';
+        }
+        function closeTrashModal() {
+            document.getElementById('trash-modal').style.display = 'none';
+        }
+
+        // 編集モーダル
+        function openEditModal(taskId, currentTitle) {
+            document.getElementById('edit-task-id').value = taskId;
+            const editInput = document.getElementById('edit-task-input');
+            editInput.value = currentTitle;
+            autoResizeTextarea(editInput);
+            document.getElementById('edit-modal').style.display = 'flex';
+        }
+        function closeEditModal() {
+            document.getElementById('edit-modal').style.display = 'none';
+        }
+
+        // タスク追加
+        async function addTask(event) {
+            event.preventDefault();
+            const input = document.getElementById('new-task');
+            const titleValue = input.value.trim();
+            if (!titleValue) return false;
+
+            const csrftoken = getCookie('csrftoken');
+            try {
+                const response = await fetch("{% url 'add_task' %}", {
+                    method: "POST",
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ title: titleValue, reversed: reversedOrder })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    insertTaskDom(data.id, data.title, reversedOrder);
+                    input.value = "";
+                    autoResizeTextarea(input);
+                } else {
+                    alert('タスク追加に失敗: ' + (data.error || response.statusText));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('通信エラーが発生しました');
+            }
+            return false;
+        }
+
+        function insertTaskDom(taskId, taskTitle, reversed) {
+            const ul = document.getElementById('task-list');
+            const li = document.createElement('li');
+            li.id = 'task' + taskId;
+            li.innerHTML = `
+                <label>${escapeHtml(taskTitle)}</label>
+                <div class="task-actions">
+                    <button class="edit-btn" onclick="openEditModal('${taskId}', '${escapeHtml(taskTitle)}')" title="編集">
+                        <span class="material-icons">edit</span>
+                    </button>
+                    <button class="delete-btn"
+                            onclick="window.location.href='/move_to_trash/${taskId}/'"
+                            title="削除">
+                        <span class="material-icons">delete</span>
+                    </button>
+                </div>
+            `;
+            if (reversed) {
+                ul.prepend(li);
+            } else {
+                ul.appendChild(li);
+            }
+        }
+
+        // テキストエリア 自動リサイズ
+        function autoResizeTextarea(el) {
+            el.style.height = 'auto';
+            const maxHeight = window.innerHeight * 0.4;
+            el.style.height = Math.min(el.scrollHeight, maxHeight) + 'px';
+        }
+
+        async function saveTask() {
+            const taskId = document.getElementById('edit-task-id').value;
+            const newTitle = document.getElementById('edit-task-input').value.trim();
+            if (!newTitle) return;
+            const csrftoken = getCookie('csrftoken');
+
+            try {
+                const response = await fetch(`/edit_task/${taskId}/`, {
+                    method: "POST",
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ title: newTitle })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    const li = document.getElementById('task' + taskId);
+                    if (li) {
+                        const label = li.querySelector('label');
+                        label.textContent = newTitle;
+                    }
+                    closeEditModal();
+                } else {
+                    alert('タスク編集に失敗: ' + (data.error || response.statusText));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('通信エラーが発生しました');
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function(m) {
+                switch (m) {
+                    case '&': return '&amp;';
+                    case '<': return '&lt;';
+                    case '>': return '&gt;';
+                    case '"': return '&quot;';
+                    case "'": return '&#39;';
+                }
+            });
+        }
+
+        // CSRFトークン取得
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

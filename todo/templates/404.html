@@ -1,0 +1,27 @@
+<!-- todo/templates/404.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>404 Not Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'todo/main.css' %}">
+</head>
+<body>
+    <!-- 固定ヘッダー（indexなどと同様） -->
+    <header>
+        <div class="header-container">
+            <h1>To-Doリスト</h1>
+        </div>
+    </header>
+
+    <div class="notfound-container">
+        <h2>404 - ページが見つかりません</h2>
+        <p>お探しのページは存在しないようです。</p>
+        <p>
+            <a href="{% url 'tasks' %}" class="return-btn">タスク一覧に戻る</a>
+        </p>
+    </div>
+</body>
+</html>

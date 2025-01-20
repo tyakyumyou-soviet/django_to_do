@@ -1,0 +1,523 @@
+/* 全体スタイル */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #E0E0E0;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ログインページ用 */
+body.login-body {
+    background-color: #1F1F1F;
+    margin-top: 80px; /* ヘッダー分 */
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* 固定ヘッダー */
+header {
+    background-color: #1F1F1F;
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed; /* ここで固定 */
+    top: 0; 
+    left: 0;
+    z-index: 10000;
+}
+
+header h1 {
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 2rem;
+    line-height: 1.5;
+}
+
+/* ログイン画面のコンテナ */
+.login-container {
+    background-color: #2F2F2F;
+    width: 95%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+}
+
+.login-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.login-error {
+    color: #FF4444;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-field label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.login-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #333;
+    color: #E0E0E0;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.login-button {
+    padding: 12px;
+    background-color: #28A745;
+    border: none;
+    border-radius: 5px;
+    color: #FFF;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.login-button:hover {
+    background-color: #218838;
+}
+
+/* ナビゲーションバー */
+nav {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    background-color: #1F1F1F;
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px solid #333;
+    position: fixed;
+    top: 60px; /* ヘッダーの下 */
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+/* タスクボタン・アカウントボタンの上に隙間を設ける */
+.navbar li {
+    margin-top: 10px; /* ここが「上に隙間」を付ける修正 */
+    margin-left: 10px; /* 横も少しあける */
+}
+
+/* 同じ高さにするためのスタイル */
+.nav-btn {
+    display: inline-block;
+    color: #E0E0E0;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    line-height: 1.5rem;
+}
+.nav-btn:hover {
+    background-color: #333;
+    color: #FFD700;
+}
+
+/* タスクコントロール */
+.task-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #1F1F1F;
+    position: fixed;
+    top: 110px; /* ヘッダー+navbarの下 */
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid #333;
+}
+#order-status {
+    font-size: 1.2rem;
+    color: #AAAAAA;
+    margin-right: 15px;
+    white-space: nowrap;
+}
+.reverse-order-btn,
+.trash-btn {
+    background: none;
+    border: none;
+    color: #E0E0E0;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s, transform 0.3s;
+}
+.reverse-order-btn .material-icons,
+.trash-btn .material-icons {
+    font-size: 36px;
+}
+.reverse-order-btn:hover,
+.trash-btn:hover {
+    color: #FFD700;
+    transform: scale(1.1);
+}
+
+/* メインコンテンツ */
+main {
+    flex: 1;
+    margin-top: 170px; /* ヘッダー + navbar + task-controls */
+    margin-bottom: 150px; /* フッター分 */
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+/* タスクリスト */
+ul#task-list {
+    list-style: none;
+    padding: 15px 0 80px;
+    margin: 0 auto;
+    max-width: 95%;
+}
+@media (min-width: 600px) {
+    ul#task-list {
+        max-width: 90%;
+    }
+}
+@media (min-width: 1024px) {
+    ul#task-list {
+        max-width: 85%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+    ul#task-list li {
+        margin-top: 0;
+        border: 1px solid #333;
+        border-radius: 5px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 6em;
+    }
+}
+ul#task-list li {
+    background-color: #1F1F1F;
+    border: 1px solid #333;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: grab;
+    transition: background-color 0.3s;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow: hidden;
+}
+ul#task-list li label {
+    color: #E0E0E0;
+    flex: 1;
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+ul#task-list li .task-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* 編集, 削除ボタンの基本スタイル */
+ul#task-list li button,
+ul#trash-list li button {
+    background: none;
+    border: none;
+    color: #E0E0E0;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, transform 0.2s;
+}
+/* ホバー時の色(編集→黄色, 削除→赤) */
+ul#task-list li button.edit-btn:hover,
+ul#trash-list li button.restore-btn:hover {
+    color: #FFD700;
+    transform: scale(1.1);
+}
+ul#task-list li button.delete-btn:hover,
+ul#trash-list li button.permanent-delete-btn:hover {
+    color: #FF0000;
+    transform: scale(1.1);
+}
+ul#task-list li button .material-icons,
+ul#trash-list li button .material-icons {
+    font-size: 32px;
+}
+
+/* フッター（固定） */
+footer {
+    background-color: #1F1F1F;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+footer form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    max-width: 800px;
+    width: 100%;
+    box-sizing: border-box;
+}
+footer form textarea {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #333;
+    color: #E0E0E0;
+    font-size: 1rem;
+    resize: none;
+    max-width: 100%;
+    box-sizing: border-box;
+    height: 48px;
+}
+footer form button {
+    background-color: #28A745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: auto;
+    height: 48px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+footer form button:hover {
+    background-color: #218838;
+}
+
+/* スマホ状態で追加ボタンを大きく */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px; 
+    }
+    .login-title {
+        font-size: 1.3rem;
+    }
+
+    footer form button {
+        font-size: 1.3rem;
+        height: 56px;
+    }
+    footer form textarea {
+        font-size: 1.2rem;
+        height: auto; 
+    }
+}
+
+/* ゴミ箱モーダル内のリスト */
+ul#trash-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+ul#trash-list li {
+    background-color: #2F2F2F;
+    border: 1px solid #555;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+ul#trash-list li label {
+    color: #CCCCCC;
+    flex: 1;
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+/* モーダルのスタイル (画面中央) */
+.modal {
+    display: none; /* ボタン押下で display:flex; にする */
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    /* 中央寄せ */
+    justify-content: center; /* 横中央 */
+    align-items: center;     /* 縦中央 */
+}
+.modal-content {
+    background-color: #1F1F1F;
+    /* 中央寄せの場合 margin: auto; は不要 or override */
+    margin: 0 auto;
+    padding: 25px;
+    border: 1px solid #333;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 5px;
+    color: #E0E0E0;
+    box-sizing: border-box;
+    position: relative;
+    /* overflow-y: auto;  高さが超える場合スクロール */
+}
+.close-btn {
+    color: #AAAAAA;
+    position: absolute;
+    top: 15px; right: 25px;
+    font-size: 36px;
+    cursor: pointer;
+}
+.close-btn:hover {
+    color: #FFFFFF;
+}
+.modal-content h2 {
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.8rem;
+}
+/* タスク編集テキストエリア */
+#edit-task-input {
+    width: 100%;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 5px;
+    color: #E0E0E0;
+    resize: vertical;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    min-height: 4em;
+}
+.modal-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.modal-buttons button {
+    padding: 12px 24px;
+    background-color: #28A745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.modal-buttons button:hover {
+    background-color: #218838;
+}
+.modal-buttons button:last-child {
+    background-color: #DC3545;
+}
+.modal-buttons button:last-child:hover {
+    background-color: #C82333;
+}
+
+/* アカウントパネルをモダンに */
+.account-panel-content {
+    background-color: #2F2F2F;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+}
+.account-panel-content h2 {
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.6rem;
+}
+.logout-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #D9534F;
+    border: none;
+    border-radius: 5px;
+    color: #FFF;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.logout-btn:hover {
+    background-color: #C9302C;
+}
+
+/* 404ページ用 */
+.notfound-container {
+    margin: 120px auto 0;
+    width: 95%;
+    max-width: 600px;
+    text-align: center;
+}
+.notfound-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+.return-btn {
+    padding: 12px 24px;
+    background-color: #28A745;
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.return-btn:hover {
+    background-color: #218838;
+}
