@@ -102,7 +102,7 @@ header h1 {
     background-color: #218838;
 }
 
-/* 「リンクがダサい」のを改良 → 下部リンクのスタイル */
+/* ログイン画面下部リンク */
 .login-link-container {
     margin-top: 20px;
     text-align: center;
@@ -112,8 +112,6 @@ header h1 {
 .login-link-container p {
     margin-bottom: 10px;
 }
-
-/* ボタン風リンク */
 .login-link-btn {
     display: inline-block;
     padding: 10px 20px;
@@ -123,7 +121,7 @@ header h1 {
     text-decoration: none;
     font-size: 1rem;
     transition: background-color 0.3s;
-    margin: 5px; /* リンク同士の間隔 */
+    margin: 5px;
 }
 .login-link-btn:hover {
     background-color: #0056b3;
@@ -150,9 +148,9 @@ nav {
     box-sizing: border-box;
 }
 
-/* タスク・アカウントボタンの上に隙間を増やす */
+/* ボタンの上にさらに余裕を持たせる */
 .navbar li {
-    margin-top: 20px; /* ← ここで変更: 以前は10px */
+    margin-top: 30px; 
     margin-left: 10px;
 }
 
@@ -175,7 +173,6 @@ nav {
 }
 
 /* タスクコントロール */
-/* 以前は top:110px; → 隠れる原因なので、更に下げる */
 .task-controls {
     display: flex;
     justify-content: flex-end;
@@ -184,7 +181,7 @@ nav {
     box-sizing: border-box;
     background-color: #1F1F1F;
     position: fixed;
-    top: 140px; /* ← ここを110から140等に変更し、重なりを回避 */
+    top: 160px;
     width: 100%;
     z-index: 1000;
     border-bottom: 1px solid #333;
@@ -221,7 +218,7 @@ nav {
 /* メインコンテンツ */
 main {
     flex: 1;
-    margin-top: 200px; /* task-controlsが140px → さらに余裕を確保 */
+    margin-top: 220px; 
     margin-bottom: 150px; 
     padding: 0 15px;
     box-sizing: border-box;
@@ -273,13 +270,17 @@ ul#task-list li {
     white-space: pre-wrap;
     overflow: hidden;
 }
+
+/* タスクのタイトル */
 ul#task-list li label {
     color: #E0E0E0;
     flex: 1;
     margin-right: 15px;
     font-size: 1.2rem;
 }
-ul#task-list li .task-actions {
+
+/* ボタンエリア: 初期は横並び */
+.task-actions {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -371,7 +372,7 @@ footer form button:hover {
     background-color: #218838;
 }
 
-/* スマホ状態で追加ボタンを大きく */
+/* スマホ状態で追加ボタンを大きく + タスクアクションを縦配置 */
 @media (max-width: 480px) {
     .login-container {
         padding: 20px; 
@@ -387,6 +388,21 @@ footer form button:hover {
     footer form textarea {
         font-size: 1.2rem;
         height: auto; 
+    }
+
+    /* 各タスクの編集・削除ボタンを縦に配置 & 右寄せ */
+    .task-actions {
+        flex-direction: column;      /* 縦並び */
+        align-items: flex-end;       /* 右揃え */
+        gap: 5px;                    /* ボタン間の隙間 */
+    }
+
+    ul#task-list li .task-actions {
+        flex-direction: column;  /* ← 縦方向 */
+        align-items: flex-end;   /* 右揃えにする例 */
+    }
+    ul#task-list li .task-actions button {
+        margin-top: 5px;  /* ボタン間の縦余白 */
     }
 }
 

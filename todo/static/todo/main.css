@@ -102,7 +102,7 @@ header h1 {
     background-color: #218838;
 }
 
-/* ログイン画面の下部リンク */
+/* ログイン画面下部リンク */
 .login-link-container {
     margin-top: 20px;
     text-align: center;
@@ -150,7 +150,7 @@ nav {
 
 /* ボタンの上にさらに余裕を持たせる */
 .navbar li {
-    margin-top: 30px; /* ← 変更: 以前は20pxや10px */
+    margin-top: 30px; 
     margin-left: 10px;
 }
 
@@ -173,7 +173,6 @@ nav {
 }
 
 /* タスクコントロール */
-/* topをさらに大きくしてnavとの重なりを回避 */
 .task-controls {
     display: flex;
     justify-content: flex-end;
@@ -182,7 +181,7 @@ nav {
     box-sizing: border-box;
     background-color: #1F1F1F;
     position: fixed;
-    top: 160px; /* ← 以前より下げる */
+    top: 160px;
     width: 100%;
     z-index: 1000;
     border-bottom: 1px solid #333;
@@ -217,7 +216,6 @@ nav {
 }
 
 /* メインコンテンツ */
-/* task-controlsを160px下げたので、更に余裕を見て200px→220pxに */
 main {
     flex: 1;
     margin-top: 220px; 
@@ -272,13 +270,17 @@ ul#task-list li {
     white-space: pre-wrap;
     overflow: hidden;
 }
+
+/* タスクのタイトル */
 ul#task-list li label {
     color: #E0E0E0;
     flex: 1;
     margin-right: 15px;
     font-size: 1.2rem;
 }
-ul#task-list li .task-actions {
+
+/* ボタンエリア: 初期は横並び */
+.task-actions {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -370,7 +372,7 @@ footer form button:hover {
     background-color: #218838;
 }
 
-/* スマホ状態で追加ボタンを大きく */
+/* スマホ状態で追加ボタンを大きく + タスクアクションを縦配置 */
 @media (max-width: 480px) {
     .login-container {
         padding: 20px; 
@@ -386,6 +388,16 @@ footer form button:hover {
     footer form textarea {
         font-size: 1.2rem;
         height: auto; 
+    }
+
+    ul#task-list li .task-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 8px !important;
+    }
+    ul#task-list li {
+        overflow: visible !important;
     }
 }
 

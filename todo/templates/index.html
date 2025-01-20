@@ -8,7 +8,7 @@
     {% load static %}
     <!-- main.cssを読み込む -->
     <link rel="stylesheet" href="{% static 'todo/main.css' %}">
-    <!-- アイコンフォント -->
+    <!-- アイコン（例） -->
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -23,7 +23,6 @@
     <!-- ナビゲーションバー: タスク, アカウント -->
     <nav>
         <ul class="navbar">
-            <!-- 上に隙間を設けるため、CSSで調整（.navbar li か .nav-btnに margin-top付与） -->
             <li>
                 <a href="{% url 'tasks' %}" class="nav-btn">タスク</a>
             </li>
@@ -113,7 +112,6 @@
 
     <!-- 編集モーダル -->
     <div id="edit-modal" class="modal">
-        <!-- モーダルを画面中央に配置するため、.modal に align-items:center; などをCSSで設定 -->
         <div class="modal-content">
             <span class="close-btn" onclick="closeEditModal()">&times;</span>
             <h2>タスクを編集</h2>
@@ -272,6 +270,7 @@
             }
         }
 
+        // HTMLエスケープ
         function escapeHtml(str) {
             return str.replace(/[&<>"']/g, function(m) {
                 switch (m) {
