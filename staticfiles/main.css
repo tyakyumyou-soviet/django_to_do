@@ -465,6 +465,8 @@ ul#trash-list li label {
     color: #E0E0E0;
     box-sizing: border-box;
     position: relative;
+    overflow-y: auto;
+    max-height: 60vh; 
 }
 .close-btn {
     color: #AAAAAA;
