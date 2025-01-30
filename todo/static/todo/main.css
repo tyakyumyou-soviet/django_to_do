@@ -413,10 +413,22 @@ ul#trash-list li {
     padding: 15px;
     margin-top: 15px;
     border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex;         /* flexコンテナに */
+    flex-wrap: wrap;       /* コンテンツがはみ出す場合、次の行に回して非表示を防ぐ */
+    align-items: flex-start; /* タスク内容が長くなったときの縦揃えを上に合わせる場合 */
 }
+
+/* ボタンエリア (.task-actions) は右側に寄せたい場合の記述 */
+ul#trash-list li .task-actions {
+    display: flex;
+    gap: 10px;       /* ボタン間の隙間 */
+    align-items: center;
+
+    /* これでテキストが長いときもボタンが右端に寄りやすい */
+    margin-left: auto; 
+    flex-shrink: 0;  /* テキストが長くても、ボタンの幅は縮まらない */
+}
+
 ul#trash-list li label {
     color: #CCCCCC;
     flex: 1;
