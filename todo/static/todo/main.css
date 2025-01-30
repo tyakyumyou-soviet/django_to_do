@@ -422,6 +422,12 @@ ul#trash-list li label {
     flex: 1;
     margin-right: 15px;
     font-size: 1.2rem;
+
+    display: block;            /* ラベルをブロック表示に (幅を取りやすくする) */
+    max-width: 100%;          /* 行全体幅を超えないように */
+    white-space: pre-wrap;     /* 改行文字を反映しつつ自動折り返し */
+    word-wrap: break-word;     /* （古いブラウザ向け）単語の途中でも折り返す */
+    overflow-wrap: break-word; /* （モダンブラウザ向け）単語の途中でも折り返す */
 }
 
 /* モーダル (画面中央) */
