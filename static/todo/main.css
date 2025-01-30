@@ -102,7 +102,7 @@ header h1 {
     background-color: #218838;
 }
 
-/* 「リンクがダサい」のを改良 → 下部リンクのスタイル */
+/* ログイン画面下部リンク */
 .login-link-container {
     margin-top: 20px;
     text-align: center;
@@ -112,8 +112,6 @@ header h1 {
 .login-link-container p {
     margin-bottom: 10px;
 }
-
-/* ボタン風リンク */
 .login-link-btn {
     display: inline-block;
     padding: 10px 20px;
@@ -123,7 +121,7 @@ header h1 {
     text-decoration: none;
     font-size: 1rem;
     transition: background-color 0.3s;
-    margin: 5px; /* リンク同士の間隔 */
+    margin: 5px;
 }
 .login-link-btn:hover {
     background-color: #0056b3;
@@ -150,8 +148,9 @@ nav {
     box-sizing: border-box;
 }
 
+/* ボタンの上にさらに余裕を持たせる */
 .navbar li {
-    margin-top: 10px;
+    margin-top: 30px; 
     margin-left: 10px;
 }
 
@@ -182,11 +181,12 @@ nav {
     box-sizing: border-box;
     background-color: #1F1F1F;
     position: fixed;
-    top: 110px;
+    top: 150px;
     width: 100%;
     z-index: 1000;
     border-bottom: 1px solid #333;
 }
+
 #order-status {
     font-size: 1.2rem;
     color: #AAAAAA;
@@ -218,7 +218,7 @@ nav {
 /* メインコンテンツ */
 main {
     flex: 1;
-    margin-top: 170px; 
+    margin-top: 220px; 
     margin-bottom: 150px; 
     padding: 0 15px;
     box-sizing: border-box;
@@ -270,13 +270,17 @@ ul#task-list li {
     white-space: pre-wrap;
     overflow: hidden;
 }
+
+/* タスクのタイトル */
 ul#task-list li label {
     color: #E0E0E0;
     flex: 1;
     margin-right: 15px;
     font-size: 1.2rem;
 }
-ul#task-list li .task-actions {
+
+/* ボタンエリア: 初期は横並び */
+.task-actions {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -368,7 +372,7 @@ footer form button:hover {
     background-color: #218838;
 }
 
-/* スマホ状態で追加ボタンを大きく */
+/* スマホ状態で追加ボタンを大きく + タスクアクションを縦配置 */
 @media (max-width: 480px) {
     .login-container {
         padding: 20px; 
@@ -384,6 +388,16 @@ footer form button:hover {
     footer form textarea {
         font-size: 1.2rem;
         height: auto; 
+    }
+
+    ul#task-list li .task-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 8px !important;
+    }
+    ul#task-list li {
+        overflow: visible !important;
     }
 }
 

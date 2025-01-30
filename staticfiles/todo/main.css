@@ -181,7 +181,7 @@ nav {
     box-sizing: border-box;
     background-color: #1F1F1F;
     position: fixed;
-    top: 160px;
+    top: 150px;
     width: 100%;
     z-index: 1000;
     border-bottom: 1px solid #333;
@@ -390,19 +390,14 @@ footer form button:hover {
         height: auto; 
     }
 
-    /* 各タスクの編集・削除ボタンを縦に配置 & 右寄せ */
-    .task-actions {
-        flex-direction: column;      /* 縦並び */
-        align-items: flex-end;       /* 右揃え */
-        gap: 5px;                    /* ボタン間の隙間 */
-    }
-
     ul#task-list li .task-actions {
-        flex-direction: column;  /* ← 縦方向 */
-        align-items: flex-end;   /* 右揃えにする例 */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 8px !important;
     }
-    ul#task-list li .task-actions button {
-        margin-top: 5px;  /* ボタン間の縦余白 */
+    ul#task-list li {
+        overflow: visible !important;
     }
 }
 

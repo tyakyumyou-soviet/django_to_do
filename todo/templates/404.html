@@ -7,6 +7,14 @@
     <title>404 Not Found</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
+    <link rel="apple-touch-icon" href="/static/todo/apple-touch-icon.jpg" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+
+
+    <link rel="manifest" href="{% static 'todo/manifest.json' %}">
+
     <link rel="icon" href="{% static 'todo/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'todo/main.css' %}">
 </head>
@@ -25,5 +33,16 @@
             <a href="{% url 'tasks' %}" class="return-btn">タスク一覧に戻る</a>
         </p>
     </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function() {
+            navigator.serviceWorker.register('{% static "todo/service-worker.js" %}')
+            .then(() => console.log('Service Worker registered!'))
+            .catch(err => console.error('SW registration failed:', err));
+          });
+        }
+      </script>
+      
 </body>
 </html>
