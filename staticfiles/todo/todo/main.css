@@ -227,7 +227,7 @@ main {
 /* タスクリスト */
 ul#task-list {
     list-style: none;
-    padding: 15px 0 80px;
+    padding: 0px 0 80px;
     margin: 0 auto;
     max-width: 95%;
 }
@@ -275,7 +275,7 @@ ul#task-list li {
 ul#task-list li label {
     color: #E0E0E0;
     flex: 1;
-    margin-right: 15px;
+    margin-right: 0px;
     font-size: 1.2rem;
 }
 
@@ -495,7 +495,7 @@ ul#trash-list li label {
     resize: vertical;
     box-sizing: border-box;
     font-size: 1.2rem;
-    min-height: 4em;
+    min-height: 15em;
 }
 .modal-buttons {
     display: flex;
